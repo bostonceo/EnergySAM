@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergySAM™ | Coming Soon</title>
+    <meta name="description" content="EnergySAM™ - AI Energy Development Desk. Something powerful is coming.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple-900: #0F0A1F;
+            --purple-800: #1A1333;
+            --purple-700: #2D2250;
+            --purple-600: #7C3AED;
+            --purple-500: #8B5CF6;
+            --purple-400: #A78BFA;
+            --purple-300: #C4B5FD;
+            --gold-500: #F59E0B;
+            --gold-400: #FBBF24;
+            --gold-300: #FCD34D;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--purple-900);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Animated background grid */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--purple-400);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 15s infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 1s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 3s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 2.5s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 4.5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 1.5s; }
+        .particle:nth-child(10) { left: 15%; animation-delay: 3.5s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Main content */
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Radar container */
+        .radar-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin-bottom: 3rem;
+        }
+
+        .radar {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Radar circles */
+        .radar-circle {
+            position: absolute;
+            border: 1px solid var(--purple-500);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radar-circle.outer {
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            border-width: 2px;
+        }
+
+        .radar-circle.middle {
+            width: 66%;
+            height: 66%;
+            opacity: 0.5;
+        }
+
+        .radar-circle.inner {
+            width: 33%;
+            height: 33%;
+            opacity: 0.7;
+        }
+
+        .radar-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--purple-400);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px var(--purple-400), 0 0 40px var(--purple-500);
+        }
+
+        /* Crosshairs */
+        .crosshair {
+            position: absolute;
+            background: var(--purple-500);
+            opacity: 0.2;
+        }
+
+        .crosshair.horizontal {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+            left: 0;
+        }
+
+        .crosshair.vertical {
+            width: 1px;
+            height: 100%;
+            top: 0;
+            left: 50%;
+        }
+
+        /* Tick marks */
+        .tick-marks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .tick {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background: var(--purple-400);
+            opacity: 0.5;
+            top: 0;
+            left: 50%;
+            transform-origin: center 140px;
+        }
+
+        .tick:nth-child(1) { transform: translateX(-50%) rotate(0deg); }
+        .tick:nth-child(2) { transform: translateX(-50%) rotate(45deg); }
+        .tick:nth-child(3) { transform: translateX(-50%) rotate(90deg); }
+        .tick:nth-child(4) { transform: translateX(-50%) rotate(135deg); }
+        .tick:nth-child(5) { transform: translateX(-50%) rotate(180deg); }
+        .tick:nth-child(6) { transform: translateX(-50%) rotate(225deg); }
+        .tick:nth-child(7) { transform: translateX(-50%) rotate(270deg); }
+        .tick:nth-child(8) { transform: translateX(-50%) rotate(315deg); }
+
+        /* Radar sweep - elegant trailing glow */
+        .radar-sweep {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 0deg,
+                transparent 300deg,
+                rgba(139, 92, 246, 0.02) 320deg,
+                rgba(167, 139, 250, 0.08) 340deg,
+                rgba(196, 181, 253, 0.15) 355deg,
+                rgba(196, 181, 253, 0.25) 360deg
+            );
+            border-radius: 50%;
+            animation: sweep 4s linear infinite;
+        }
+
+        @keyframes sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Sweep line - the leading edge */
+        .sweep-line {
+            position: absolute;
+            width: calc(50% - 6px);
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--purple-400) 30%, var(--purple-300) 100%);
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 50%;
+            animation: sweep 4s linear infinite;
+            box-shadow: 0 0 8px var(--purple-300), 0 0 15px var(--purple-400);
+            border-radius: 0 2px 2px 0;
+        }
+
+        /* Target blips */
+        .blip {
+            position: absolute;
+            border-radius: 50%;
+            animation: blipPulse 2s ease-in-out infinite;
+        }
+
+        .blip::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--gold-400) 0%, transparent 70%);
+            opacity: 0.5;
+            border-radius: 50%;
+        }
+
+        .blip-1 {
+            width: 14px;
+            height: 14px;
+            background: var(--gold-400);
+            top: 25%;
+            left: 60%;
+            box-shadow: 0 0 15px var(--gold-400), 0 0 30px var(--gold-500);
+            animation-delay: 0s;
+        }
+
+        .blip-2 {
+            width: 10px;
+            height: 10px;
+            background: var(--gold-500);
+            top: 35%;
+            left: 25%;
+            box-shadow: 0 0 12px var(--gold-500), 0 0 25px var(--gold-500);
+            animation-delay: 0.5s;
+        }
+
+        .blip-3 {
+            width: 8px;
+            height: 8px;
+            background: var(--gold-300);
+            top: 65%;
+            left: 55%;
+            box-shadow: 0 0 10px var(--gold-300), 0 0 20px var(--gold-400);
+            animation-delay: 1s;
+        }
+
+        @keyframes blipPulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+        }
+
+        /* Wordmark */
+        .wordmark {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+
+        .wordmark-energy {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+
+        .wordmark-sam {
+            font-size: 3.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--purple-400);
+            margin-left: 0.5rem;
+        }
+
+        .wordmark-tm {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--purple-400);
+            vertical-align: super;
+            margin-left: 0.25rem;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: #6B7280;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+        }
+
+        .tagline span {
+            color: var(--purple-400);
+            font-weight: 500;
+        }
+
+        /* Status line */
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.85rem;
+            color: #9CA3AF;
+            margin-bottom: 2rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gold-400);
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--gold-400);
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Teaser text */
+        .teaser {
+            max-width: 400px;
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #9CA3AF;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #4B5563;
+            z-index: 10;
+        }
+
+        /* Ambient glow */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: ambientPulse 6s ease-in-out infinite;
+        }
+
+        @keyframes ambientPulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .radar-container {
+                width: 220px;
+                height: 220px;
+            }
+
+            .tick {
+                transform-origin: center 110px;
+            }
+
+            .wordmark-energy,
+            .wordmark-sam {
+                font-size: 2.5rem;
+            }
+
+            .teaser {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+
+            .footer {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="ambient-glow"></div>
+    
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <div class="radar-container">
+            <div class="radar">
+                <div class="radar-circle outer"></div>
+                <div class="radar-circle middle"></div>
+                <div class="radar-circle inner"></div>
+                <div class="crosshair horizontal"></div>
+                <div class="crosshair vertical"></div>
+                <div class="tick-marks">
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                    <div class="tick"></div>
+                </div>
+                <div class="radar-sweep"></div>
+                <div class="sweep-line"></div>
+                <div class="blip blip-1"></div>
+                <div class="blip blip-2"></div>
+                <div class="blip blip-3"></div>
+                <div class="radar-center"></div>
+            </div>
+        </div>
+
+        <div class="wordmark">
+            <span class="wordmark-energy">Energy</span>
+            <span class="wordmark-sam">SAM</span>
+            <span class="wordmark-tm">™</span>
+        </div>
+
+        <div class="tagline">
+            <span>AI</span> · Energy Development Desk
+        </div>
+
+        <div class="status">
+            <div class="status-dot"></div>
+            <span>Tracking opportunities</span>
+        </div>
+
+        <p class="teaser">
+            A new approach to energy intelligence is emerging. 
+            We're building something that changes how opportunities are discovered.
+        </p>
+    </div>
+
+    <footer class="footer">
+        <div class="copyright">
+            © 2025 EnerGPT, Inc. All rights reserved. EnergySAM™ is a trademark of EnerGPT, Inc.
+        </div>
+    </footer>
+</body>
+</html>
